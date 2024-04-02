@@ -15,6 +15,14 @@ public class LoginSystem {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        
+       //u,p,e,l,f
+        RegistrySystem r = new RegistrySystem();
+        r.register("bob", "bob123", "bob123@gmail.com", "bob", "joe");
+        System.out.println(r.getUser(0));
+        r.register("bob", "bob123", "bob123@gmail.com", "bob", "joe");
+        r.register("bob1", "bob123", "bob123@gmail.com", "bob", "joe");
     }
     
 }
