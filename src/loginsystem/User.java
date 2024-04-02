@@ -18,6 +18,7 @@ public class User {
     boolean admin;
     static int aUsers;
     int id;
+    final static String delimiter = "§";
   
     public User(String u, String p, String e, String l, String f){
         username = u;
@@ -35,7 +36,7 @@ public class User {
     }
     
     public String delimit(){
-        String r = id + "§" + username + "§" + password + "§" + email + "§" + lName + "§" + fName;
+        String r = id + delimiter + username + delimiter + password + delimiter + email + delimiter + lName + delimiter + fName;
         return r;
     }
     

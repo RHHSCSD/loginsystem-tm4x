@@ -1,6 +1,2 @@
-hello
-1§bob1§bob123§bob123@gmail.com§bob§joe
-hello
 0§bob§bob123§bob123@gmail.com§bob§joe
-hello
 1§bob1§bob123§bob123@gmail.com§bob§joe
