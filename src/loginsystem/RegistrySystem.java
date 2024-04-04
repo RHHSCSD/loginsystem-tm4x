@@ -41,14 +41,16 @@ public class RegistrySystem {
     //adds an user, makes sure the username isn't already taken and adds it to the arraylist of all users
     public int register(String u, String p, String e, String l, String f) {
 
-        if (unique(u)) {
+        if (!unique(u)) {
             return 1;
-        } else if (noDelimiter(u, p, e, l, f)) {
+        } else if (!noDelimiter(u, p, e, l, f)) {
             return 2;
-        } else if (strongPassword(p)) {
+        } else if (!strongPassword(p)) {
             return 3;
         } else {
-            User newU = new User(u, encrypt(p), e, l, f);
+            
+            String s = generateSalt();
+            User newU = new User(u, encrypt(p+s), e, l, f,s);
             saveUser(newU);
             users.add(newU);
             return 0;
@@ -93,7 +95,7 @@ public class RegistrySystem {
                 String s = sc.nextLine();
                 System.out.println(s);
                 String[] params = s.split(DELIMITER);
-                User newU = new User(params[1], params[2], params[3], params[4], params[5]);
+                User newU = new User(params[1], params[2], params[3], params[4], params[5], params[6]);
                 users.add(newU);
             }
 
@@ -133,7 +135,6 @@ public class RegistrySystem {
     public String encrypt(String p) {
 
         String encryptedPass = "";
-
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(p.getBytes());
@@ -143,8 +144,30 @@ public class RegistrySystem {
             }
 
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(RegistrySystem.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("no alg");
         }
         return encryptedPass;
     }
+    
+    
+    public String generateSalt(){
+       String salt = "";
+       char c;
+       for(int i = 0; i< 5; i++){
+           //21-126
+           c =(char) ((char) (Math.random()*(126-21+1))+21);  
+           salt += c;
+       }
+        return salt;
+    }
+    
+    public boolean login(String user, String pass){
+        for(User u: users){
+            if(u.getUsername().equals(user) && u.getPassword().equals(encrypt(pass+u.getSalt()))){
+                return true;
+            }
+        }
+        return false;
+    }
 }
+
