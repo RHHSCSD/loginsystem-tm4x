@@ -55,14 +55,14 @@ public class RegistryGUI extends javax.swing.JFrame {
             }
         });
 
-        rUser.setText("User");
+        rUser.setText("Username");
         rUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rUserActionPerformed(evt);
             }
         });
 
-        rPass.setText("Pass");
+        rPass.setText("Password");
         rPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rPassActionPerformed(evt);
@@ -243,6 +243,9 @@ public class RegistryGUI extends javax.swing.JFrame {
         } else {
             lLabel.setText("Try Again");
         }
+        //(false);
+        //LoginFramr.msin(null);
+        
     }//GEN-LAST:event_lButtonActionPerformed
 
     /**

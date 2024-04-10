@@ -25,7 +25,7 @@ public class RegistrySystem {
     private final String FILENAME = "Storage.txt";
     private final String BADPASSWORDS = "BadPasswords.txt";
 
-    //contstructor that starts loads users
+    //contstructor that loads users
     public RegistrySystem() {
         loadUsers();
     }
@@ -39,8 +39,16 @@ public class RegistrySystem {
     }
 
     //adds an user, makes sure the username isn't already taken and adds it to the arraylist of all users
+    /**
+     * @param u,p,e,l,f, username, password, email, last name, first name
+     * @return 0 for success
+     *         1 if the username isn't unique
+     *         2 if the user's fields includes the delimiter
+     *         3 if the password is not strong
+     */
     public int register(String u, String p, String e, String l, String f) {
-
+        
+        //check if the username is unique, doesn't contain the delimiter. and has a strong password
         if (!unique(u)) {
             return 1;
         } else if (!noDelimiter(u, p, e, l, f)) {
@@ -49,23 +57,31 @@ public class RegistrySystem {
             return 3;
         } else {
             
+            //generates salt and makes a new user and adds it the the array of all users
             String s = generateSalt();
-            User newU = new User(u, encrypt(p+s), e, l, f,s);
+            User newU = new User(u, encrypt(p + s), e, l, f, s);
             saveUser(newU);
             users.add(newU);
             return 0;
         }
     }
 
+    /**
+     * @param u,p,e,l,f, user id of user that will be returned
+     * @return the users
+     */
     public boolean noDelimiter(String u, String p, String e, String l, String f) {
         String s = u + p + e + l + f;
         return !s.contains(DELIMITER);
     }
 
-    //checks if a username is unique
-    //loops through all the names, if the given username is already in use false is returned
+    /**
+     * @param u,username
+     * @return true if the username is unique
+     *         false if the username is taken
+     */
     public boolean unique(String u) {
-        
+
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUsername().equals(u)) {
                 return false;
@@ -73,9 +89,12 @@ public class RegistrySystem {
         }
         return true;
     }
-
+    /**
+     * @param u, user
+     *          converts user data to delimited text and saves to file 
+     */
     public void saveUser(User u) {
-        
+
         try {
             File f = new File(FILENAME);
             pw = new PrintWriter(new FileWriter(f, true));
@@ -86,6 +105,9 @@ public class RegistrySystem {
         }
     }
 
+    /**
+     * loads users from file to the class
+     */
     private void loadUsers() {
 
         try {
@@ -104,11 +126,15 @@ public class RegistrySystem {
         }
     }
 
+    /**
+     * @param p, password
+     * @return true if password has a letter and a number 
+     */
     public boolean strongPassword(String p) {
-        
+
         boolean hasNumber = false;
         boolean hasLetter = false;
-        
+
         try {
             File f = new File(BADPASSWORDS);
             sc = new Scanner(f);
@@ -132,6 +158,10 @@ public class RegistrySystem {
         return (hasNumber && hasLetter);
     }
 
+    /**
+     * @param p, password
+     * @return string of encrypted password 
+     */
     public String encrypt(String p) {
 
         String encryptedPass = "";
@@ -149,25 +179,32 @@ public class RegistrySystem {
         return encryptedPass;
     }
     
-    
-    public String generateSalt(){
-       String salt = "";
-       char c;
-       for(int i = 0; i< 5; i++){
-           //21-126
-           c =(char) ((char) (Math.random()*(126-21+1))+21);  
-           salt += c;
-       }
+    /**
+     * @return string of 5 random characters
+     */
+    public String generateSalt() {
+        String salt = "";
+        char c;
+        for (int i = 0; i < 5; i++) {
+            //21-126
+            c = (char) ((char) (Math.random() * (126 - 21 + 1)) + 21);
+            salt += c;
+        }
         return salt;
     }
-    
-    public boolean login(String user, String pass){
-        for(User u: users){
-            if(u.getUsername().equals(user) && u.getPassword().equals(encrypt(pass+u.getSalt()))){
+
+    /**
+     * @param user,pass, username and password
+     * @return true if password matches username
+     *         false if it doesn't
+     * 
+     */
+    public boolean login(String user, String pass) {
+        for (User u : users) {
+            if (u.getUsername().equals(user) && u.getPassword().equals(encrypt(pass + u.getSalt()))) {
                 return true;
             }
         }
         return false;
     }
 }
-

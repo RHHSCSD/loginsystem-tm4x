@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package loginsystem;
-import java.lang.Math;
 /**
  *
  * @author tangm
@@ -99,12 +98,17 @@ public class User {
     }
     
     
-
+    /**
+     * @return string representation of delimited data
+     */
     public String delimit() {
         String r = id + DELIMITER + username + DELIMITER + password + DELIMITER + email + DELIMITER + lName + DELIMITER + fName + DELIMITER + salt;
         return r;
     }
 
+    /**
+     * @return string representation of user data
+     */
     public String toString() {
         String r = "Id: " + id
                 + "\nUsername: " + username
