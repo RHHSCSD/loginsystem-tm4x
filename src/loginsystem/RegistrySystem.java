@@ -9,8 +9,7 @@ import java.io.*;
 import java.util.Scanner;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static loginsystem.Searching.remove;
 
 /**
  *
@@ -62,6 +61,7 @@ public class RegistrySystem {
             User newU = new User(u, encrypt(p + s), e, l, f, s);
             saveUser(newU);
             users.add(newU);
+            remove(u);
             return 0;
         }
     }
@@ -134,7 +134,7 @@ public class RegistrySystem {
 
         boolean hasNumber = false;
         boolean hasLetter = false;
-
+        
         try {
             File f = new File(BADPASSWORDS);
             sc = new Scanner(f);

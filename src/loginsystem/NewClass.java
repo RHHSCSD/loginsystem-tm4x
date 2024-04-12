@@ -18,7 +18,8 @@ public class NewClass {
         System.out.println(x.compareTo(y));
         System.out.println(binarySearch("hello"));
         System.out.println(seqSearch("hello"));
-        System.out.println(binarySearch("pzazz"));
-        System.out.println(seqSearch("pzazz"));
+        System.out.println(binarySearch("computer"));
+        System.out.println(seqSearch("computer"));
+        remove("computer");
     }
 }
